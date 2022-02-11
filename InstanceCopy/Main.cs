@@ -47,6 +47,7 @@ namespace InstanceCopy
             GameObject Button = GameObject.Find("UserInterface/MenuContent/Screens/WorldInfo/Panels/DetailsPanel/AuthorText-Title/AuthorButton").gameObject;
             ButtonID = GameObject.Instantiate(Button, WPage, true);
             ButtonID.name = "InstanceIDButton";
+            ButtonID.GetComponent<Image>().type = Image.Type.Tiled;
             ButtonID.GetComponent<Button>().onClick = new Button.ButtonClickedEvent();
             SetAction(() => { CopyInstanceID(); });
             ButtonID.GetComponentInChildren<Text>().text = "InstanceID";
