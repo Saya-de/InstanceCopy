@@ -9,8 +9,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using VRC.UI;
-
-
+using System.Windows.Forms;
+using Button = UnityEngine.UI.Button;
 
 namespace InstanceCopy
 {
@@ -58,9 +58,15 @@ namespace InstanceCopy
         public static void CopyInstanceID()
         {
             GameObject WI = GameObject.Find("UserInterface/MenuContent/Screens/WorldInfo").gameObject;
-            string ID = WI.GetComponent<PageWorldInfo>().field_Public_ApiWorldInstance_0.id;           
-            MelonLogger.Msg($"Copied Instance ID: {ID}");
-            ClipboardCopy(ID);
+            string ID = WI.GetComponent<PageWorldInfo>().field_Public_ApiWorldInstance_0.id;
+            try
+            {
+                Clipboard.SetText(ID);
+                MelonLogger.Msg($"Copied Instance ID: {ID}");
+            }
+            catch { MelonLogger.Msg(ConsoleColor.Red,"Error while copying the ID to your Clipboard. Try again!");}
+                      
+            
         }  
         public static void SetAction(Action buttonAction)
         {
@@ -68,16 +74,6 @@ namespace InstanceCopy
             if (buttonAction != null)
                 ButtonID.GetComponent<Button>().onClick.AddListener(UnhollowerRuntimeLib.DelegateSupport.ConvertDelegate<UnityAction>(buttonAction));
         }
-
-
-        public static void ClipboardCopy(string ID)
-        {
-            TextEditor te = new TextEditor();
-            te.text = ID;
-            te.SelectAll();
-            te.Copy();
-        }     
-              
 
     }
 
