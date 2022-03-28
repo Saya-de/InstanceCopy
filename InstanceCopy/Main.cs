@@ -27,21 +27,27 @@ namespace InstanceCopy
     public class InstanceCopy : MelonMod
     {
         protected static GameObject ButtonID;
+
+        public static bool done = false;
         public override void OnSceneWasInitialized(int buildIndex, string sceneName)
         {
-            if (sceneName.Equals("ui"))
+            if(!done)
             {
+                if (sceneName.Equals("ui"))
+                {
 
-                MelonLogger.Msg("Setting up Button...");
+                    MelonLogger.Msg("Setting up Button...");
 
-                MelonCoroutines.Start(MainInit());
+                    MainInit();
 
+                }
             }
+            
         }      
       
-        public static IEnumerator MainInit()
+        public static void MainInit()
         {
-            yield return new WaitForSeconds(0f);
+            
                        
             Transform WPage = GameObject.Find("UserInterface/MenuContent/Screens/WorldInfo").transform;
             GameObject Button = GameObject.Find("UserInterface/MenuContent/Screens/WorldInfo/Panels/DetailsPanel/AuthorText-Title/AuthorButton").gameObject;
@@ -51,8 +57,10 @@ namespace InstanceCopy
             ButtonID.GetComponent<Button>().onClick = new Button.ButtonClickedEvent();
             SetAction(() => { CopyInstanceID(); });
             ButtonID.GetComponentInChildren<Text>().text = "InstanceID";
-            ButtonID.GetComponent<RectTransform>().sizeDelta = new Vector2(200, 70);
-            ButtonID.GetComponent<RectTransform>().anchoredPosition = new Vector2(-585, 400);
+            ButtonID.GetComponent<RectTransform>().sizeDelta = new Vector2(200, 66);
+            ButtonID.GetComponent<RectTransform>().anchoredPosition = new Vector2(-585, 392);
+            MelonLogger.Msg("Done!");
+            done = true;
         }
 
         public static void CopyInstanceID()
